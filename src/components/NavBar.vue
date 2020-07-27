@@ -16,15 +16,6 @@
         </v-toolbar-title>
       </router-link>
 
-      <router-link 
-        to="/about"
-        class="ml-4"
-        >
-        <v-toolbar-title>
-          About
-        </v-toolbar-title>
-      </router-link>
-
       <v-spacer></v-spacer>
 
       <v-btn>Log in</v-btn>

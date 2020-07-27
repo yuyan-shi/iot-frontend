@@ -1,34 +1,29 @@
 <template>
   <div class="HomeMenu">
-      <v-container fluid grid-list-md>
+<v-container fluid grid-list-sm ma-6>
     <v-layout row wrap>
-      <v-flex d-flex xs12 sm6 md4>
-        <v-card color="purple" dark>
-          <v-card-title primary class="title">Energy Monitoring</v-card-title>
-        </v-card>
-      </v-flex>
-      <v-flex d-flex xs12 sm6 md3>
+      <v-flex d-flex xs10 offset-xs1>
         <v-layout row wrap>
           <v-flex d-flex>
-            <v-card color="indigo" dark>
-              <v-card-title primary class="title">Process Control</v-card-title>
-            </v-card>
-          </v-flex>
-          <v-flex d-flex>
-            <v-layout row wrap>
+            <v-layout row>
+              <v-flex
+                v-for="block in blocks"
+                :key="block"
+                d-flex
+              >
+                <v-card
+                  :color=block.color
+                  flat
+                  dark
+                  :to=block.link
+                >
+                  <v-card-title class="headline">{{block.title}}</v-card-title>
+                  <v-card-text>(brief explanation insert here)</v-card-text>
+                </v-card>
+              </v-flex>
             </v-layout>
           </v-flex>
         </v-layout>
-      </v-flex>
-      <v-flex d-flex xs12 sm6 md2 child-flex>
-        <v-card color="green lighten-2" dark>
-          <v-card-title>Parameter Monitoring</v-card-title>
-        </v-card>
-      </v-flex>
-      <v-flex d-flex xs12 sm6 md3>
-        <v-card color="blue lighten-2" dark>
-          <v-card-title>Track and Trace</v-card-title>
-        </v-card>
       </v-flex>
     </v-layout>
   </v-container>
@@ -38,8 +33,18 @@
 <script>
 export default {
   name: 'HomeMenu',
-
+  data:function(){
+    return {
+      blocks:[
+        { title: 'Track and Trace', color: 'indigo', link:'/TrackAndTrace'},
+        { title: 'Parameter Monitoring', color: 'purple', link:'/ParameterMonitoring'},
+        { title: 'Energy Monitoring', color: 'red lighten-2', link:'/EnergyMonitoring'},
+        { title: 'Process Control', color: 'blue lighten-1', link:'/ProcessControl' },
+      ]
+    }
+  }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
