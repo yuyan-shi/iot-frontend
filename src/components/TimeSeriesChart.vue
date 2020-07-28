@@ -6,7 +6,7 @@
 
 <script>
   import { Plotly } from 'vue-plotly';
-  
+  import { mapActions } from 'vuex';
   export default {
     data:function(){
       return{
@@ -29,6 +29,12 @@
     },
     components:{
       Plotly
+    },
+    methods:{
+      ...mapActions(['GET_DATA']),
+    },
+    created(){
+      this.GET_DATA();
     }
   }
 </script>

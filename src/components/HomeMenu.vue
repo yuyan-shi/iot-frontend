@@ -8,7 +8,7 @@
             <v-layout row>
               <v-flex
                 v-for="block in blocks"
-                :key="block"
+                :key="block.id"
                 d-flex
               >
                 <v-card
@@ -36,10 +36,10 @@ export default {
   data:function(){
     return {
       blocks:[
-        { title: 'Track and Trace', color: 'indigo', link:'/TrackAndTrace'},
-        { title: 'Parameter Monitoring', color: 'purple', link:'/ParameterMonitoring'},
-        { title: 'Energy Monitoring', color: 'red lighten-2', link:'/EnergyMonitoring'},
-        { title: 'Process Control', color: 'blue lighten-1', link:'/ProcessControl' },
+        { id: 1, title: 'Track and Trace', color: 'indigo', link:'/TrackAndTrace'},
+        { id: 2, title: 'Parameter Monitoring', color: 'purple', link:'/ParameterMonitoring'},
+        { id: 3, title: 'Energy Monitoring', color: 'red lighten-2', link:'/EnergyMonitoring'},
+        { id: 4, title: 'Process Control', color: 'blue lighten-1', link:'/ProcessControl' },
       ]
     }
   }
