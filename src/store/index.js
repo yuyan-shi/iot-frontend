@@ -7,31 +7,55 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     data: [],
-    url: "http://192.168.1.228:8050/api/v1/graph"
+    layout: {}, 
   },
+
   mutations: {
     UPDATE_DATA(state,arr){
       state.data = arr;
+    },
+    UPDATE_LAYOUT(state,dict){
+      state.layout = dict;
     }
   },
+
   actions: {
     GET_DATA(context){
-        axios({
-          method:'get', 
-          url: this.state.url,
-          // headers:{
-          //   "Access-Control-Allow-Origin": "*"
-          // }
-        }).then(function(response){
-          let data = Object.values(response.data.data);
-          // console.log(response);
-          context.commit('')
-        })
-        .catch(function(error){
-          console.warn(error);
-        })
+      let id = "1";
+      axios({
+        method:'get', 
+        url: "http://192.168.1.228:8050/api/v3/graph?id=" + id
+      }).then(function(response){
+        context.commit('UPDATE_DATA', response.data.data);
+        context.commit('UPDATE_LAYOUT', response.data.layout);
+      })
+      .catch(function(error){
+        console.warn(error);
+      })
+    },
+
+    POST_DATE(context, date){
+      var FormData = require('form-data');
+      var data = new FormData();
+      data.append('id', '0');
+      data.append('date', date);
+
+      var config = {
+        method: 'post',
+        url: 'http://192.168.1.228:8050/api/v2/graph',
+        data : data
+      };
+
+      axios(config).then(function(response){
+        context.commit('UPDATE_DATA', response.data.data);
+        context.commit('UPDATE_LAYOUT', response.data.layout);
+      })
+      .catch(function(error){
+        console.warn(error);
+      })
     }
   },
+
   modules: {
   }
 })

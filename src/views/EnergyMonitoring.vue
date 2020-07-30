@@ -14,9 +14,9 @@
             class="ml-4 mr-4"
           ></v-select>
         </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <TimeSeries></TimeSeries>
+        <v-flex xs10 offset-xs-1>
+          <TimeSeries></TimeSeries>
+        </v-flex>
       </v-layout>
   </div>
 </template>
