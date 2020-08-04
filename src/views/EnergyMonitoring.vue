@@ -24,6 +24,7 @@
                     transition="scale-transition"
                     offset-y
                     min-width="290px"
+                    max-width="360px"
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
@@ -35,7 +36,17 @@
                         required
                       ></v-text-field>
                     </template>
-                    <v-date-picker v-model="selected_period" no-title scrollable range>
+                    <v-btn text small color="primary" @click="expressDate(7)">this week</v-btn>
+                    <v-btn text small color="primary" @click="expressDate(30)">past 30 days</v-btn>
+                    <v-btn text small color="primary" @click="expressDate(1)">past 24 hours</v-btn>
+                    <v-date-picker 
+                      v-model="selected_period" 
+                      no-title 
+                      scrollable 
+                      range
+                      :min="min_date" 
+                      :max="max_date"
+                    >
                     <v-spacer></v-spacer>
                     <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
                     <v-btn text color="primary" @click="datePicker">OK</v-btn>
@@ -43,18 +54,14 @@
                   </v-menu>
                 </v-col>
                 <v-col cols="12" sm="2">
-                  <v-btn :disabled="!date_saved && !valid" @click="submitForm">submit</v-btn>
+                  <v-btn :disabled="!date_saved || !valid" @click="submitForm">submit</v-btn>
                 </v-col>
               </v-row>
             </v-form>
           
-            <v-row>
-                <v-col col="2" outlined>
-                  <h2 v-if="this.submitted">{{this.selected_apartment}}</h2>
-                </v-col>
-                <v-col col="8" outlined>
-                  <h4 v-if="this.submitted">{{this.selected_period}}</h4>
-                </v-col>
+            <v-row align="center">
+                <h2 v-if="this.submitted" class="mr-2">{{this.selected_apartment}}</h2>
+                <h4 v-if="this.submitted">{{this.selected_period}}</h4>
             </v-row>
 
             <v-row row-wrap v-if="this.submitted">
@@ -168,6 +175,12 @@ export default {
     datePicker(){
       this.$refs.menu.save(this.selected_period);
       this.date_saved = true;
+    },
+    expressDate(days){
+      var end_date = new Date().toISOString().substr(0, 10);
+      var start_date = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString().substr(0, 10);
+      this.selected_period = [start_date, end_date];
+      this.datePicker();
     },
     submitForm(){
       console.log(this.valid)
