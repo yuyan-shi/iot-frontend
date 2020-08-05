@@ -9,7 +9,7 @@
                 <v-col cols="12" sm="5">
                   <v-select
                     :items="apartments"
-                    v-model="selected_apartment"
+                    v-model="select_apartment"
                     label="select apartment"
                     :rules="[v => !!v || 'Item is required']"
                     required
@@ -20,7 +20,7 @@
                     ref="menu"
                     v-model="menu"
                     :close-on-content-click="false"
-                    :return-value.sync="selected_period"
+                    :return-value.sync="select_period"
                     transition="scale-transition"
                     offset-y
                     min-width="290px"
@@ -28,7 +28,7 @@
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
-                        v-model="selected_period"
+                        v-model="select_period"
                         label="select period"
                         v-bind="attrs"
                         v-on="on"
@@ -40,7 +40,7 @@
                     <v-btn text small color="primary" @click="expressDate(30)">past 30 days</v-btn>
                     <v-btn text small color="primary" @click="expressDate(1)">past 24 hours</v-btn>
                     <v-date-picker 
-                      v-model="selected_period" 
+                      v-model="select_period" 
                       no-title 
                       scrollable 
                       range
@@ -54,7 +54,7 @@
                   </v-menu>
                 </v-col>
                 <v-col cols="12" sm="2">
-                  <v-btn :disabled="!date_saved || !valid" @click="submitForm">submit</v-btn>
+                  <v-btn type="submit" :disabled="!date_saved || !valid" @click="submitForm">submit</v-btn>
                 </v-col>
               </v-row>
             </v-form>
@@ -113,14 +113,16 @@ export default {
   data: function(){
     return{
       valid: false,
-      apartments: ['all', 'apartment 1', 'apartment 2', 'apartment 3'],
+      apartments: ['All', 'Apartment 1', 'Apartment 2', 'Apartment 3'],
       machines: ['machine 1', 'machine 2', 'machine 3'],
       min_date: "2000-08-06",
       max_date: "2020-08-13",
       date_saved: false,
+      select_apartment:"",
+      select_period:[],
+      selected_apartment: "",
       selected_period: [],
       menu: false,
-      selected_apartment: "",
       submitted: false,
       alerts:[
         {message: "Alert 1"}
@@ -173,7 +175,7 @@ export default {
   },
   methods:{
     datePicker(){
-      this.$refs.menu.save(this.selected_period);
+      this.$refs.menu.save(this.select_period);
       this.date_saved = true;
     },
     expressDate(days){
@@ -184,8 +186,12 @@ export default {
     },
     submitForm(){
       console.log(this.valid)
-      if(this.$refs.form.validate()){
+      if(this.valid){
         this.submitted = true;
+        this.selected_apartment = this.select_apartment;
+        this.selected_period = this.select_period;
+        this.$refs.form.reset();
+        this.date_saved = false;
         //add api call here to populate dashboard
       }
     }
